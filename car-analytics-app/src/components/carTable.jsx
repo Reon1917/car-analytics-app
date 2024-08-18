@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import './stylesheets/carTable.css'; 
 
-// Function to aggregate data by brand and model
 const aggregateData = (cars) => {
   const brandModelMap = {};
 
@@ -37,8 +36,8 @@ const CarTable = ({ cars }) => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}>
+    <div className="car-table-container">
+      <div className="car-table-wrapper">
         <h2>Car Table</h2>
         <div style={{ height: '400px', overflowY: 'scroll' }}>
           <table className="car-table">
@@ -70,7 +69,7 @@ const CarTable = ({ cars }) => {
           </table>
         </div>
       </div>
-      <div style={{ flex: 1, paddingLeft: '20px' }}>
+      <div className={`details-container ${selectedModel && selectedBrand ? '' : 'hidden'}`}>
         {selectedModel && selectedBrand && (
           <div>
             <h2>{selectedBrand} {selectedModel} Details</h2>
@@ -87,7 +86,7 @@ const CarTable = ({ cars }) => {
                 </thead>
                 <tbody>
                   {aggregatedData[selectedBrand].models[selectedModel].cars.map((car, index) => {
-                    console.log('Image URL:', car.Img100); // Log the image URL
+                    console.log('Image URL:', car.Img100);
                     return (
                       <tr key={index}>
                         <td>

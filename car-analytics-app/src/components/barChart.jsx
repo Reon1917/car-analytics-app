@@ -1,15 +1,17 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-// Function to extract brand and model directly from JSON
+// Register the plugin
+Chart.register(ChartDataLabels);
+
 const parseBrandAndModel = (car) => {
-  const brand = car.NameMMT.split(' ')[0]; // Brand is the first word
-  const model = car.Model; // Model is taken directly from the JSON
+  const brand = car.NameMMT.split(' ')[0];
+  const model = car.Model;
 
   return { brand, model };
 };
 
-// Generate a random color
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -25,12 +27,10 @@ const StackedBarChart = ({ cars }) => {
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
 
-    // Extract unique brands and models
     const brandModelMap = new Map();
 
     cars.forEach(car => {
       const { brand, model } = parseBrandAndModel(car);
-      const price = parseFloat(car.Prc.replace(/[^0-9.-]+/g, '')) || 0;
 
       if (!brandModelMap.has(brand)) {
         brandModelMap.set(brand, {});
@@ -40,75 +40,110 @@ const StackedBarChart = ({ cars }) => {
         brandModelMap.get(brand)[model] = 0;
       }
 
-      brandModelMap.get(brand)[model] += price;
+      brandModelMap.get(brand)[model] += 1; // Count the occurrences
     });
 
-    // Convert map to arrays
     const brands = [...brandModelMap.keys()];
     const models = [...new Set(cars.map(car => parseBrandAndModel(car).model))];
 
-    // Create datasets for each model
     const datasets = models.map((model) => {
+      const data = brands.map(brand => {
+        const total = Object.values(brandModelMap.get(brand)).reduce((sum, count) => sum + count, 0);
+        const count = brandModelMap.get(brand)[model] || 0;
+        return (count / total) * 100; // Calculate percentage
+      });
+      // Filter out zero or undefined values
+      if (data.every(value => value === 0)) {
+        return null;
+      }
       return {
         label: model,
-        data: brands.map(brand => brandModelMap.get(brand)[model] || 0),
+        data: data,
         backgroundColor: getRandomColor(),
+        barPercentage: 1, // Adjust bar width
+        categoryPercentage: 0.8, // Adjust bar width
       };
-    });
+    }).filter(dataset => dataset !== null); // Remove null datasets
 
     const data = {
-      labels: brands, // Brands on the y-axis
+      labels: brands,
       datasets: datasets,
     };
 
     const options = {
-      indexAxis: 'y', // Horizontal bars (brands on y-axis, prices on x-axis)
+      indexAxis: 'y',
       scales: {
-        x: {
-          stacked: true,
-          title: {
-            display: true,
-            text: 'Price'
-          },
-          ticks: {
-            autoSkip: false, // Show all labels
-            maxRotation: 0, // No rotation for x-axis labels
-            minRotation: 0, // No rotation for x-axis labels
-            padding: 10, // Add padding to avoid overlap
-          }
-        },
         y: {
           stacked: true,
           beginAtZero: true,
           title: {
             display: true,
-            text: 'Brand'
+            text: 'Brand',
           },
           ticks: {
-            autoSkip: false, // Ensure all brand names are shown
-            maxRotation: 0, // No rotation for y-axis labels
-            minRotation: 0, // No rotation for y-axis labels
-            padding: 10, // Add padding to avoid overlap
-          }
+            autoSkip: false,
+            maxRotation: 0,
+            minRotation: 0,
+            padding: 10,
+          },
+          grace: '5%', // Add some space around the edges
+        },
+        x: {
+          stacked: true,
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Percentage',
+          },
+          ticks: {
+            stepSize: 10,
+          },
+          min: 0,
+          max: 120, // Increase max value to provide more space
         },
       },
       plugins: {
+        datalabels: {
+          display: true,
+          color: 'white',
+          anchor: 'center', // Position the labels at the center of the bars
+          align: 'center', // Align the labels at the center of the bars
+          formatter: (value, context) => {
+            const model = context.dataset.label;
+            return value > 0 ? model : '';
+          },
+          font: {
+            weight: 'regular',
+            size: 10, // Adjust font size for better readability
+          },
+          padding: {
+            top: 2,
+            bottom: 2,
+          },
+        },
         tooltip: {
           callbacks: {
             label: (context) => {
               const label = context.dataset.label || '';
               const value = context.raw || 0;
-              return `${label}:  ฿${value}`;
-            }
-          }
+              return `${label}: ${value.toFixed(2)}%`;
+            },
+          },
         },
         legend: {
-          display: true
-        }
-      }
+          display: false,
+        },
+      },
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10,
+        },
+      },
     };
 
-    // Initialize the chart
     const stackedBarChart = new Chart(ctx, {
       type: 'bar',
       data: data,
@@ -123,7 +158,7 @@ const StackedBarChart = ({ cars }) => {
   return (
     <div>
       <h2>Stacked Bar Chart</h2>
-      <canvas ref={chartRef} width="800" height="600"></canvas>
+      <canvas ref={chartRef} width="1200" height="800"></canvas> {/* Increase canvas width */}
     </div>
   );
 };

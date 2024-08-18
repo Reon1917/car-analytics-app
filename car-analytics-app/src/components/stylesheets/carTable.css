@@ -1,53 +1,79 @@
+.car-table-container {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start (left) */
+  align-items: flex-start; /* Align items to the start (top) */
+  flex-direction: row; /* Arrange items in a row */
+  width: 100%;
+  margin: 20px 0;
+}
+
+.car-table-wrapper {
+  flex: 1; /* Allow the table to take up available space */
+  margin-right: 20px; /* Add some space between the table and details */
+}
+
+.details-container {
+  flex: 1; /* Allow the details to take up available space */
+  margin-top: 0; /* Remove top margin */
+  transition: transform 0.3s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Other existing styles remain unchanged */
 .car-table {
-    width: 100%;
-    border-collapse: separate; /* Change from collapse to separate for cleaner look */
-    border-spacing: 0 10px; /* Add spacing between rows */
-    margin-bottom: 20px;
-    background-color: #000000; /* AMOLED black background for the table */
-  }
-  
-  .car-table th, .car-table td {
-    padding: 12px 15px; /* Increase padding for a cleaner look */
-    text-align: left;
-    background-color: #000000; /* AMOLED black background for table cells */
-    color: #ffffff; /* White text color for better contrast */
-  }
-  
-  .car-table th {
-    background-color: #000000; /* AMOLED black background for table headers */
-    color: #ffffff; /* White text color for better contrast */
-    font-weight: bold; /* Make headers bold */
-  }
-  
-  .car-table tr {
-    border-radius: 10px; /* Add border-radius for rounded corners */
-    overflow: hidden; /* Ensure rounded corners are visible */
-  }
-  
-  .car-table tr:nth-child(even) {
-    background-color: #111111; /* Slightly lighter black for even rows */
-  }
-  
-  .car-table tr:hover {
-    background-color: #333333; /* Dark gray background for hovered rows */
-  }
-  
-  .clickable-row {
-    cursor: pointer;
-  }
-  
-  .clickable-row:hover {
-    background-color: #444444; /* Slightly lighter gray for hovered clickable rows */
-    color: #00ff00; /* Bright green text color for better visibility */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
-  }
-  
-  .car-image {
-    width: 100px;
-    height: auto;
-    border-radius: 5px; /* Add border-radius to images */
-  }
-  
-  .brand-row {
-    border-top: 2px solid #ffffff; /* White top border to separate brands */
-  }
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-bottom: 20px;
+  background-color: #000000;
+  transition: transform 0.3s ease-in-out;
+}
+
+.car-table th, .car-table td {
+  padding: 12px 15px;
+  text-align: left;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.car-table th {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.car-table tr {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.car-table tr:nth-child(even) {
+  background-color: #111111;
+}
+
+.car-table tr:hover {
+  background-color: #333333;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #444444;
+  color: #00ff00;
+  transition: background-color 1s, color 1s;
+}
+
+.car-image {
+  width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.brand-row {
+  border-top: 2px solid #ffffff;
+}
