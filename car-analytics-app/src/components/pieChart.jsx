@@ -1,63 +1,53 @@
-import React, { useEffect, useRef } from 'react';
-import { Chart } from 'chart.js';
+import React, { useEffect, useState } from "react";
+import { Pie } from "react-chartjs-2";
 
-const PieChart = ({ cars }) => {
-    const chartRef = useRef(null);
-    const chartInstanceRef = useRef(null);
+const PieChart = () => {
+  const [carData, setCarData] = useState([]);
 
-    useEffect(() => {
-        const ctx = chartRef.current.getContext('2d');
+  useEffect(() => {
+    // Dynamically import the JSON file from the data folder
+    import("../data/taladrod-cars.min.json")
+      .then((module) => {
+        setCarData(module.default.Cars);
+      })
+      .catch((error) => console.error("Error loading JSON data:", error));
+  }, []);
 
-        // Destroy the previous chart instance if it exists
-        if (chartInstanceRef.current) {
-            chartInstanceRef.current.destroy();
-        }
+  // Counting the number of cars by brand name (Extracting the brand from NameMMT)
+  const brandCounts = carData.reduce((acc, car) => {
+    const brand = car.NameMMT.split(' ')[0]; // Extract the brand name
+    acc[brand] = (acc[brand] || 0) + 1;
+    return acc;
+  }, {});
 
-        // Create a new chart instance
-        chartInstanceRef.current = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: cars.map(car => car.brand),
-                datasets: [
-                    {
-                        label: 'Car Brands',
-                        data: cars.map(car => car.value),
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                        ],
-                        borderWidth: 1,
-                    },
-                ],
-            },
-        });
+  // Define a color palette
+  const colorPalette = [
+    "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
+    "#FF9F40", "#E6194B", "#3CB44B", "#FFE119", "#4363D8",
+    "#F58231", "#911EB4", "#46F0F0", "#F032E6", "#BCF60C",
+    "#FABEBE", "#008080", "#E6BEFF", "#9A6324", "#FFFAC8",
+    "#800000", "#AAFFC3", "#808000", "#FFD8B1", "#000075",
+    "#808080", "#FFFFFF", "#000000"
+  ];
 
-        // Cleanup function to destroy the chart instance when the component unmounts
-        return () => {
-            if (chartInstanceRef.current) {
-                chartInstanceRef.current.destroy();
-                chartInstanceRef.current = null;
-            }
-        };
-    }, [cars]);
+  // Preparing the data for the Pie Chart
+  const chartData = {
+    labels: Object.keys(brandCounts),
+    datasets: [
+      {
+        data: Object.values(brandCounts),
+        backgroundColor: colorPalette.slice(0, Object.keys(brandCounts).length),
+        hoverBackgroundColor: colorPalette.slice(0, Object.keys(brandCounts).length),
+      },
+    ],
+  };
 
-    return (
-        <div>
-            <canvas ref={chartRef}></canvas>
-        </div>
-    );
+  return (
+    <div>
+      <h2>Cars by Brand</h2>
+      <Pie data={chartData} />
+    </div>
+  );
 };
 
 export default PieChart;
