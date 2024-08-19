@@ -1,0 +1,29 @@
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: black;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    max-width: 80%; /* Limit the width of the container */
+    margin: 0 auto; /* Center the container */
+  }
+  
+  .chart-container:hover {
+    box-shadow: 0 8px 16px cyan;
+  }
+  
+  .chart-title {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 20px;
+    color: white;
+    font-size: 24px; /* Adjust font size */
+  }
+
+  .brands-text{
+    color: red;
+  }
+  

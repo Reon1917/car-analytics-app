@@ -39,7 +39,7 @@ const CarTable = ({ cars }) => {
     <div className="car-table-container">
       <div className="car-table-wrapper">
         <h2>Car Table</h2>
-        <div style={{ height: '400px', overflowY: 'scroll' }}>
+        <div style={{ height: '500px', overflowY: 'scroll' }}>
           <table className="car-table">
             <thead>
               <tr>
@@ -52,7 +52,7 @@ const CarTable = ({ cars }) => {
               {Object.keys(aggregatedData).map((brand, brandIndex) => (
                 <React.Fragment key={brand}>
                   <tr className="brand-row">
-                    <td>{brand}</td>
+                    <td className='brands-text'>{brand}</td>
                     <td></td>
                     <td>{aggregatedData[brand].totalCars}</td>
                   </tr>

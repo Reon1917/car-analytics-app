@@ -1,11 +1,13 @@
 .car-table-container {
   display: flex;
-  justify-content: flex-start; /* Align items to the start (left) */
-  align-items: flex-start; /* Align items to the start (top) */
+  justify-content: center; /* Align items to the start (left) */
+  align-items: center; /* Align items to the start (top) */
   flex-direction: row; /* Arrange items in a row */
   width: 100%;
-  margin: 20px 0;
+  margin: 20px 20px;
 }
+
+
 
 .car-table-wrapper {
   flex: 1; /* Allow the table to take up available space */
@@ -29,7 +31,8 @@
   border-spacing: 0 10px;
   margin-bottom: 20px;
   background-color: #000000;
-  transition: transform 0.3s ease-in-out;
+  border-radius: 10px;
+  transition: transform 1 ease-in-out;
 }
 
 .car-table th, .car-table td {
@@ -55,7 +58,7 @@
 }
 
 .car-table tr:hover {
-  background-color: #333333;
+  background-color: green;
 }
 
 .clickable-row {
@@ -77,3 +80,23 @@
 .brand-row {
   border-top: 2px solid #ffffff;
 }
+
+/* Style the scrollbar */
+.car-table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.car-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.car-table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.car-table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
