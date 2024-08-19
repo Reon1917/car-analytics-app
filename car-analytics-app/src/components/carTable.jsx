@@ -30,10 +30,30 @@ const CarTable = ({ cars }) => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
 
+  const [favorites, setFavorites] = useState({});
+
   const handleModelClick = (brand, model) => {
     setSelectedBrand(brand);
     setSelectedModel(model);
   };
+
+
+  const toggleFavorite = (car) => {
+    setFavorites((prevFavorites) => {
+      const carId = car.Img100; // Assuming the image URL is unique
+      if (prevFavorites[carId]) {
+        const { [carId]: removed, ...rest } = prevFavorites;
+        return rest;
+      } else {
+        return { ...prevFavorites, [carId]: car };
+      }
+    });
+  };
+
+  const isFavorite = (car) => {
+    return !!favorites[car.Img100];
+  };
+
 
   return (
     <div className="car-table-container">
@@ -82,11 +102,17 @@ const CarTable = ({ cars }) => {
                     <th>Year</th>
                     <th>Province</th>
                     <th>Status</th>
+
+                    <th>Favorite</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   {aggregatedData[selectedBrand].models[selectedModel].cars.map((car, index) => {
+
+
                     console.log('Image URL:', car.Img100);
+
                     return (
                       <tr key={index}>
                         <td>
@@ -96,6 +122,13 @@ const CarTable = ({ cars }) => {
                         <td>{car.Yr}</td>
                         <td>{car.Province}</td>
                         <td>{car.Status}</td>
+
+                        <td>
+                          <button className={`favorite-button`} onClick={() => toggleFavorite(car)}>
+                            {isFavorite(car) ? '★' : '☆'}
+                          </button>
+                        </td>
+
                       </tr>
                     );
                   })}
