@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
+    // Setting the cars state with data from the JSON file
     setCars(carsData.Cars);
   }, []);
 
@@ -16,8 +17,11 @@ const Dashboard = () => {
     <ErrorBoundary>
       <div>
         <h1>Dashboard</h1>
+        {/* Displaying the car table */}
         <CarTable cars={cars} />
+        {/* Displaying the pie chart */}
         <PieChart cars={cars} />
+        {/* Displaying the stacked bar chart */}
         <StackedBarChart cars={cars} />
       </div>
     </ErrorBoundary>
