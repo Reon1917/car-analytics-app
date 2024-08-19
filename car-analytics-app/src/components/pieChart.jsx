@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
+import './stylesheets/pieChart.css'; // Import the CSS file
 
 const PieChart = () => {
   const [carData, setCarData] = useState([]);
@@ -42,10 +43,31 @@ const PieChart = () => {
     ],
   };
 
+  // Chart options
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          color: '#ffffff', // White text color for legend
+        },
+      },
+      tooltip: {
+        backgroundColor: '#000000', // AMOLED black background for tooltips
+        titleColor: '#ffffff', // White text color for tooltip title
+        bodyColor: '#ffffff', // White text color for tooltip body
+      },
+    },
+  };
+
   return (
-    <div>
-      <h2>Cars by Brand</h2>
-      <Pie data={chartData} />
+    <div className="pie-chart-container">
+      <h2 className="chart-title">Cars by Brand</h2>
+      <div className="pie-chart-wrapper">
+        <Pie data={chartData} options={chartOptions} />
+      </div>
     </div>
   );
 };

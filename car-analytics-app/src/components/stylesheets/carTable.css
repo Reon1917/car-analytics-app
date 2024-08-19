@@ -1,0 +1,101 @@
+.car-table-container {
+  display: flex;
+  justify-content: center; /* Align items to the start (left) */
+  align-items: center; /* Align items to the start (top) */
+  flex-direction: row; /* Arrange items in a row */
+  width: 100%;
+  margin: 20px 20px;
+}
+
+
+
+.car-table-wrapper {
+  flex: 1; /* Allow the table to take up available space */
+  margin-right: 20px; /* Add some space between the table and details */
+}
+
+.details-container {
+  flex: 1; /* Allow the details to take up available space */
+  margin-top: 0; /* Remove top margin */
+  transition: transform 0.3s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Other existing styles remain unchanged */
+.car-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+  margin-bottom: 20px;
+  background-color: #000000;
+  border-radius: 10px;
+  transition: transform 1 ease-in-out;
+}
+
+.car-table th, .car-table td {
+  padding: 12px 15px;
+  text-align: left;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.car-table th {
+  background-color: #000000;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.car-table tr {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.car-table tr:nth-child(even) {
+  background-color: #111111;
+}
+
+.car-table tr:hover {
+  background-color: green;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover {
+  background-color: #444444;
+  color: #00ff00;
+  transition: background-color 1s, color 1s;
+}
+
+.car-image {
+  width: 100px;
+  height: auto;
+  border-radius: 5px;
+}
+
+.brand-row {
+  border-top: 2px solid #ffffff;
+}
+
+/* Style the scrollbar */
+.car-table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.car-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.car-table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.car-table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
