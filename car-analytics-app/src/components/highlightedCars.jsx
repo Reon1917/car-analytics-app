@@ -4,26 +4,35 @@ const HighlightedCars = () => {
   const [highlightedCars, setHighlightedCars] = useState([]);
 
   useEffect(() => {
-    const savedCars = JSON.parse(localStorage.getItem('highlightedCars')) || [];
-    setHighlightedCars(savedCars);
+    // Load highlighted cars (favorites) from local storage when the component mounts
+    const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
+    const favoriteCars = Object.values(savedFavorites);
+    setHighlightedCars(favoriteCars);
   }, []);
 
-  const addCarToHighlight = (car) => {
-    const updatedCars = [...highlightedCars, car];
-    setHighlightedCars(updatedCars);
-    localStorage.setItem('highlightedCars', JSON.stringify(updatedCars));
-  };
-
   const removeCarFromHighlight = (car) => {
-    const updatedCars = highlightedCars.filter(c => c.id !== car.id);
+    // Remove a car from the highlighted list and update local storage
+    const updatedCars = highlightedCars.filter(c => c.Cid !== car.Cid);
     setHighlightedCars(updatedCars);
-    localStorage.setItem('highlightedCars', JSON.stringify(updatedCars));
+
+    // Update the favorites in local storage
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || {};
+    delete storedFavorites[car.Cid];
+    localStorage.setItem('favorites', JSON.stringify(storedFavorites));
   };
 
   return (
     <div>
       <h1>Highlighted Cars</h1>
-      {/* Add UI to display and manage highlighted cars */}
+      {/* UI to display and manage highlighted cars */}
+      <ul>
+        {highlightedCars.map(car => (
+          <li key={car.Cid}>
+            {car.NameMMT} - {car.Model}
+            <button onClick={() => removeCarFromHighlight(car)}>Remove</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

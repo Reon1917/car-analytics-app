@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './stylesheets/carTable.css'; 
 
 const aggregateData = (cars) => {
@@ -29,18 +29,40 @@ const CarTable = ({ cars }) => {
   const aggregatedData = aggregateData(cars);
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
-
   const [favorites, setFavorites] = useState({});
+
+  // Load favorites from localStorage when the component mounts
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem('favorites');
+    console.log("Raw data from localStorage:", storedFavorites);
+  
+    if (storedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(storedFavorites);
+        console.log("Parsed favorites from localStorage:", parsedFavorites);
+        setFavorites(parsedFavorites);
+      } catch (error) {
+        console.error("Error parsing favorites from localStorage:", error);
+      }
+    } else {
+      console.log("No favorites found in localStorage.");
+    }
+  }, []);
+  
+  useEffect(() => {
+    console.log("Saving favorites to localStorage:", favorites);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+  
 
   const handleModelClick = (brand, model) => {
     setSelectedBrand(brand);
     setSelectedModel(model);
   };
 
-
   const toggleFavorite = (car) => {
     setFavorites((prevFavorites) => {
-      const carId = car.Img100; // Assuming the image URL is unique
+      const carId = car.Cid;  // Ensure Cid is unique for each car
       if (prevFavorites[carId]) {
         const { [carId]: removed, ...rest } = prevFavorites;
         return rest;
@@ -51,9 +73,8 @@ const CarTable = ({ cars }) => {
   };
 
   const isFavorite = (car) => {
-    return !!favorites[car.Img100];
+    return !!favorites[car.Cid];
   };
-
 
   return (
     <div className="car-table-container">
@@ -93,7 +114,7 @@ const CarTable = ({ cars }) => {
         {selectedModel && selectedBrand && (
           <div>
             <h2>{selectedBrand} {selectedModel} Details</h2>
-            <div style={{ height: '400px', overflowY: 'scroll' }}>
+            <div style={{ height: '500px', overflowY: 'scroll' }}>
               <table className="car-table">
                 <thead>
                   <tr>
@@ -102,17 +123,11 @@ const CarTable = ({ cars }) => {
                     <th>Year</th>
                     <th>Province</th>
                     <th>Status</th>
-
                     <th>Favorite</th>
-
                   </tr>
                 </thead>
                 <tbody>
                   {aggregatedData[selectedBrand].models[selectedModel].cars.map((car, index) => {
-
-
-                    console.log('Image URL:', car.Img100);
-
                     return (
                       <tr key={index}>
                         <td>
@@ -122,13 +137,11 @@ const CarTable = ({ cars }) => {
                         <td>{car.Yr}</td>
                         <td>{car.Province}</td>
                         <td>{car.Status}</td>
-
                         <td>
-                          <button className={`favorite-button`} onClick={() => toggleFavorite(car)}>
+                          <button className={`favorite-button ${isFavorite(car) ? 'gold' : ''}`} onClick={() => toggleFavorite(car)}>
                             {isFavorite(car) ? '★' : '☆'}
                           </button>
                         </td>
-
                       </tr>
                     );
                   })}

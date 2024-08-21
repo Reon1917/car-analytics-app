@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import './stylesheets/barChart.css'; // Import the CSS file
 
 // Register the plugin
 Chart.register(ChartDataLabels);
@@ -12,12 +13,12 @@ const parseBrandAndModel = (car) => {
   return { brand, model };
 };
 
-const getRandomColor = () => {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
+const colors = ['#C11E22', '#14A916', '#274FC1'];
+let colorIndex = 0;
+
+const getColor = () => {
+  const color = colors[colorIndex];
+  colorIndex = (colorIndex + 1) % colors.length;
   return color;
 };
 
@@ -59,7 +60,7 @@ const StackedBarChart = ({ cars }) => {
       return {
         label: model,
         data: data,
-        backgroundColor: getRandomColor(),
+        backgroundColor: getColor(),
         barPercentage: 1, // Adjust bar width
         categoryPercentage: 0.8, // Adjust bar width
       };
@@ -84,7 +85,7 @@ const StackedBarChart = ({ cars }) => {
             autoSkip: false,
             maxRotation: 0,
             minRotation: 0,
-            padding: 10,
+            padding: 5,
           },
           grace: '5%', // Add some space around the edges
         },
@@ -99,7 +100,7 @@ const StackedBarChart = ({ cars }) => {
             stepSize: 10,
           },
           min: 0,
-          max: 120, // Increase max value to provide more space
+          max: 100, // Increase max value to provide more space
         },
       },
       plugins: {
@@ -113,8 +114,8 @@ const StackedBarChart = ({ cars }) => {
             return value > 0 ? model : '';
           },
           font: {
-            weight: 'regular',
-            size: 10, // Adjust font size for better readability
+            weight: 'thin',
+            size: 5, // Adjust font size for better readability
           },
           padding: {
             top: 2,
@@ -156,9 +157,9 @@ const StackedBarChart = ({ cars }) => {
   }, [cars]);
 
   return (
-    <div>
-      <h2>Stacked Bar Chart</h2>
-      <canvas ref={chartRef} width="1200" height="800"></canvas> {/* Increase canvas width */}
+    <div className="chart-container">
+      <h2 className="chart-title">Stacked Bar Chart</h2>
+      <canvas ref={chartRef} width="800" height="600"></canvas>
     </div>
   );
 };
