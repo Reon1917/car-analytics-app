@@ -29,31 +29,14 @@ const CarTable = ({ cars }) => {
   const aggregatedData = aggregateData(cars);
   const [selectedModel, setSelectedModel] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  const [favorites, setFavorites] = useState({});
-
-  // Load favorites from localStorage when the component mounts
-  useEffect(() => {
+  const [favorites, setFavorites] = useState(() => {
     const storedFavorites = localStorage.getItem('favorites');
-    console.log("Raw data from localStorage:", storedFavorites);
-  
-    if (storedFavorites) {
-      try {
-        const parsedFavorites = JSON.parse(storedFavorites);
-        console.log("Parsed favorites from localStorage:", parsedFavorites);
-        setFavorites(parsedFavorites);
-      } catch (error) {
-        console.error("Error parsing favorites from localStorage:", error);
-      }
-    } else {
-      console.log("No favorites found in localStorage.");
-    }
-  }, []);
-  
+    return storedFavorites ? JSON.parse(storedFavorites) : [];
+  });
+
   useEffect(() => {
-    console.log("Saving favorites to localStorage:", favorites);
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
-  
 
   const handleModelClick = (brand, model) => {
     setSelectedBrand(brand);
@@ -63,17 +46,16 @@ const CarTable = ({ cars }) => {
   const toggleFavorite = (car) => {
     setFavorites((prevFavorites) => {
       const carId = car.Cid;  // Ensure Cid is unique for each car
-      if (prevFavorites[carId]) {
-        const { [carId]: removed, ...rest } = prevFavorites;
-        return rest;
+      if (prevFavorites.includes(carId)) {
+        return prevFavorites.filter(id => id !== carId);
       } else {
-        return { ...prevFavorites, [carId]: car };
+        return [...prevFavorites, carId];
       }
     });
   };
 
   const isFavorite = (car) => {
-    return !!favorites[car.Cid];
+    return favorites.includes(car.Cid);
   };
 
   return (
