@@ -5,6 +5,7 @@ import StackedBarChart from '../components/barChart';
 import carsData from '../data/taladrod-cars.min.json';
 import ErrorBoundary from '../components/errorBoundary';
 
+
 const Dashboard = () => {
   const [cars, setCars] = useState([]);
 

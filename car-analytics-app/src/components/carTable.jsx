@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './stylesheets/carTable.css'; 
+import '/src/App.css';
 
 const aggregateData = (cars) => {
   const brandModelMap = {};

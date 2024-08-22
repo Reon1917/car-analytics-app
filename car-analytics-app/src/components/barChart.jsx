@@ -13,13 +13,27 @@ const parseBrandAndModel = (car) => {
   return { brand, model };
 };
 
-const colors = ['#C11E22', '#14A916', '#274FC1'];
-let colorIndex = 0;
+// Predefined 14 colors
+const colors = [
+  '#C11E22', '#14A916', '#274FC1', '#8B4513', '#2E8B57', '#4682B4', '#6A5ACD', 
+  '#708090', '#556B2F', '#8B0000', '#9932CC', '#FF4500', '#DAA520', '#CD5C5C'
+];
 
-const getColor = () => {
-  const color = colors[colorIndex];
-  colorIndex = (colorIndex + 1) % colors.length;
-  return color;
+const assignColors = (models) => {
+  const modelColorMap = new Map();
+  let colorIndex = 0;
+
+  models.forEach(model => {
+    if (!modelColorMap.has(model)) {
+      while (modelColorMap.has(colors[colorIndex])) {
+        colorIndex = (colorIndex + 1) % colors.length;
+      }
+      modelColorMap.set(model, colors[colorIndex]);
+      colorIndex = (colorIndex + 1) % colors.length;
+    }
+  });
+
+  return modelColorMap;
 };
 
 const StackedBarChart = ({ cars }) => {
@@ -47,6 +61,8 @@ const StackedBarChart = ({ cars }) => {
     const brands = [...brandModelMap.keys()];
     const models = [...new Set(cars.map(car => parseBrandAndModel(car).model))];
 
+    const modelColorMap = assignColors(models);
+
     const datasets = models.map((model) => {
       const data = brands.map(brand => {
         const total = Object.values(brandModelMap.get(brand)).reduce((sum, count) => sum + count, 0);
@@ -60,7 +76,7 @@ const StackedBarChart = ({ cars }) => {
       return {
         label: model,
         data: data,
-        backgroundColor: getColor(),
+        backgroundColor: modelColorMap.get(model),
         barPercentage: 1, // Adjust bar width
         categoryPercentage: 0.8, // Adjust bar width
       };
