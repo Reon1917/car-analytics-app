@@ -7,7 +7,7 @@
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
-    max-width: 80%; /* Limit the width of the container */
+    max-width: 90%; /* Limit the width of the container */
     margin: 0 auto; /* Center the container */
   }
   
@@ -20,10 +20,8 @@
     font-family: 'Arial', sans-serif;
     margin-bottom: 20px;
     color: white;
-    font-size: 24px; /* Adjust font size */
+    font-size: 20px; /* Adjust font size */
   }
 
-  .brands-text{
-    color: red;
-  }
+
   

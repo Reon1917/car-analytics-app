@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './stylesheets/carTable.css'; 
+import '/src/App.css';
 
 const aggregateData = (cars) => {
   const brandModelMap = {};
@@ -46,6 +47,7 @@ const CarTable = ({ cars }) => {
   const toggleFavorite = (car) => {
     setFavorites((prevFavorites) => {
       const carId = car.Cid;
+
       if (prevFavorites.includes(carId)) {
         return prevFavorites.filter(id => id !== carId);
       } else {
@@ -126,6 +128,43 @@ const CarTable = ({ cars }) => {
                 })}
               </tbody>
             </table>
+=======
+            <h2>{selectedBrand} {selectedModel} Details</h2>
+            <div style={{ height: '500px', overflowY: 'scroll' }}>
+              <table className="car-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Year</th>
+                    <th>Province</th>
+                    <th>Status</th>
+                    <th>Favorite</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {aggregatedData[selectedBrand].models[selectedModel].cars.map((car, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>
+                          <img src={car.Img100} alt="Car" className="car-image" onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }} />
+                        </td>
+                        <td>{car.Prc}</td>
+                        <td>{car.Yr}</td>
+                        <td>{car.Province}</td>
+                        <td>{car.Status}</td>
+                        <td>
+                          <button className={`favorite-button ${isFavorite(car) ? 'gold' : ''}`} onClick={() => toggleFavorite(car)}>
+                            {isFavorite(car) ? '★' : '☆'}
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
           </div>
         )}
       </div>

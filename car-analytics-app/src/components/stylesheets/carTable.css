@@ -98,3 +98,15 @@
 .hidden {
   display: none;
 }
+
+
+.favorite-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.favorite-button.gold {
+  color: gold;
+}

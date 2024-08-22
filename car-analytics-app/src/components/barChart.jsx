@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import './stylesheets/barChart.css';
+import './stylesheets/barChart.css'; // Import the CSS file
 
 // Register the plugin
 Chart.register(ChartDataLabels);
@@ -13,36 +13,27 @@ const parseBrandAndModel = (car) => {
   return { brand, model };
 };
 
+// Predefined 14 colors
 const colors = [
-  '#4CAF50', // Green
-  '#FF5722', // Orange
-  '#2196F3', // Blue
-  '#9C27B0', // Purple
-  '#FFC107', // Amber
-  '#00BCD4', // Cyan
-  '#E91E63', // Pink
-  '#8BC34A', // Light Green
-  '#FF9800', // Deep Orange
-  '#673AB7', // Deep Purple
-  '#3F51B5', // Indigo
-  '#FFEB3B', // Yellow
-  '#795548', // Brown
-  '#607D8B', // Blue Grey
+  '#C11E22', '#14A916', '#274FC1', '#8B4513', '#2E8B57', '#4682B4', '#6A5ACD', 
+  '#708090', '#556B2F', '#8B0000', '#9932CC', '#FF4500', '#DAA520', '#CD5C5C'
 ];
 
-const assignColors = (brands, models) => {
-  const colorMap = new Map();
+const assignColors = (models) => {
+  const modelColorMap = new Map();
   let colorIndex = 0;
 
-  brands.forEach(brand => {
-    models.forEach(model => {
-      colorMap.set(`${brand}-${model}`, colors[colorIndex % colors.length]);
-      colorIndex++;
-    });
-    colorIndex = 0;
+  models.forEach(model => {
+    if (!modelColorMap.has(model)) {
+      while (modelColorMap.has(colors[colorIndex])) {
+        colorIndex = (colorIndex + 1) % colors.length;
+      }
+      modelColorMap.set(model, colors[colorIndex]);
+      colorIndex = (colorIndex + 1) % colors.length;
+    }
   });
 
-  return colorMap;
+  return modelColorMap;
 };
 
 const StackedBarChart = ({ cars }) => {
@@ -70,7 +61,7 @@ const StackedBarChart = ({ cars }) => {
     const brands = [...brandModelMap.keys()];
     const models = [...new Set(cars.map(car => parseBrandAndModel(car).model))];
 
-    const colorMap = assignColors(brands, models);
+    const modelColorMap = assignColors(models);
 
     const datasets = models.map((model) => {
       const data = brands.map(brand => {
@@ -85,7 +76,7 @@ const StackedBarChart = ({ cars }) => {
       return {
         label: model,
         data: data,
-        backgroundColor: brands.map(brand => colorMap.get(`${brand}-${model}`)), // Use assigned colors
+        backgroundColor: modelColorMap.get(model),
         barPercentage: 1, // Adjust bar width
         categoryPercentage: 0.8, // Adjust bar width
       };
@@ -139,8 +130,8 @@ const StackedBarChart = ({ cars }) => {
             return value > 0 ? model : '';
           },
           font: {
-            weight: 'regular',
-            size: 10, // Adjust font size for better readability
+            weight: 'thin',
+            size: 5, // Adjust font size for better readability
           },
           padding: {
             top: 2,
@@ -182,9 +173,9 @@ const StackedBarChart = ({ cars }) => {
   }, [cars]);
 
   return (
-    <div>
-      <h2>Stacked Bar Chart</h2>
-      <canvas ref={chartRef} width="1200" height="800"></canvas> {/* Increase canvas width */}
+    <div className="chart-container">
+      <h2 className="chart-title">Stacked Bar Chart</h2>
+      <canvas ref={chartRef} width="800" height="600"></canvas>
     </div>
   );
 };
