@@ -40,3 +40,134 @@
 .read-the-docs {
   color: #888;
 }
+
+/* General Styles */
+.highlighted-cars-page {
+  padding: 2rem;
+  background-color: #121212; /* Dark mode background */
+  color: #fff;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(to bottom right, #1f1f1f, #323232);
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  color: #f0f0f0;
+}
+
+/* Car Grid Styles */
+.car-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.car-card {
+  background-color: #1c1c1c;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+}
+
+.car-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+}
+
+.car-image-wrapper {
+  position: relative;
+}
+
+.car-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.car-card:hover .car-image {
+  transform: scale(1.05);
+}
+
+/* Overlay for Buttons */
+.car-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.car-card:hover .car-overlay {
+  opacity: 1;
+}
+
+.remove-button {
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.view-details-button:hover {
+  background-color: #f0485b;
+}
+
+.remove-button {
+  background-color: #ff5c5c;
+}
+
+.remove-button:hover {
+  background-color: #ff1c1c;
+}
+
+/* Car Info */
+.car-info {
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.car-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+}
+
+.car-model {
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.car-price {
+  font-size: 1.2rem;
+  color: #00aaff;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .car-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .car-model, .car-price {
+    font-size: 1rem;
+  }
+}
