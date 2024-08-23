@@ -46,6 +46,8 @@
   padding: 2rem;
   background-color: #121212; /* Dark mode background */
   color: #fff;
+  max-width: 1280px; /* Constrain the width of the content */
+  margin: 0 auto; /* Center the content */
 }
 
 .hero-section {
@@ -62,7 +64,7 @@
 /* Car Grid Styles */
 .car-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* Ensure 3 cars per row */
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -115,7 +117,7 @@
   opacity: 1;
 }
 
-.remove-button {
+.view-details-button, .remove-button {
   background-color: #e63946;
   color: #fff;
   border: none;
@@ -162,16 +164,23 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .car-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cars per row on tablets */
+  }
+}
+
 @media (max-width: 768px) {
+  .car-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 car per row on mobile */
+  }
   .car-info h3 {
     font-size: 1.2rem;
   }
-
   .car-model, .car-price {
     font-size: 1rem;
   }
-
-
 }
+
 
 
