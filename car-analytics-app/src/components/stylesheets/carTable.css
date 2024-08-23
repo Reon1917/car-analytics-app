@@ -1,3 +1,10 @@
+/* Brand Text Styles */
+.brands-text {
+  color: #FFD700; /* Gold color */
+  font-weight: bold;
+  font-size: 1.2em; /* Increase font size */
+}
+
 /* Container Styles */
 .car-table-container {
   display: flex;
@@ -29,7 +36,7 @@
   border-collapse: separate;
   border-spacing: 0 10px;
   margin-bottom: 20px;
-  background-color: #fff;
+  background-color: #000000; /* AMOLED black background */
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -37,15 +44,15 @@
 }
 
 .car-table th, .car-table td {
-  padding: 12px 15px;
+  padding: 8px 15px;
   text-align: left;
-  background-color: #fff;
-  color: #000;
+  background-color: #000000; /* AMOLED black background */
+  color: #ffffff; /* Light text */
 }
 
 .car-table th {
-  background-color: lightgreen;
-  color: #000;
+  background-color:  #007AFF;
+  color: #ffffff; /* Light text */
   font-weight: bold;
 }
 
@@ -55,11 +62,11 @@
 }
 
 .car-table tr:nth-child(even) {
-  background-color: blue;
+  background-color: #111111; /* Slightly lighter black background */
 }
 
 .car-table tr:hover {
-  background-color: blue;
+  background-color: #222222; /* Darker hover effect */
   cursor: pointer;
 }
 
@@ -68,9 +75,15 @@
 }
 
 .clickable-row:hover {
-  background-color: lightblue;
+  background-color: #222222; /* Darker hover effect */
   cursor: pointer;
   transition: background-color 1s, color 1s;
+}
+
+/* Model Cell Hover Effect */
+.model-cell:hover {
+  background-color:  #007AFF; /* Darker hover effect for model cell */
+  transition: background-color 0.3s;
 }
 
 /* Image Styles */
@@ -82,7 +95,7 @@
 
 /* Brand Row Styles */
 .brand-row {
-  border-top: 2px solid #000;
+  border-top: 2px solid #ffffff; /* Light border */
 }
 
 /* Scrollbar Styles */
@@ -91,25 +104,26 @@
 }
 
 .car-table-container::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #111111; /* Dark scrollbar track */
   border-radius: 10px;
 }
 
 .car-table-container::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #333333; /* Dark scrollbar thumb */
   border-radius: 10px;
 }
 
 .car-table-container::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #555555; /* Lighter scrollbar thumb on hover */
 }
 
 /* Favorite Button Styles */
 .favorite-button {
-  background: lightgreen;
+  background: #111111; /* Dark background */
   border: none;
   cursor: pointer;
   font-size: 1.5em;
+  color: blue; /* Light text */
 }
 
 .favorite-button.gold {

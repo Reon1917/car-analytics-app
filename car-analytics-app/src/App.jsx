@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
+import NavBar from './components/navbar';
 import HighlightedCars from './components/highlightedCars';
 
 function NavigationButtons() {
@@ -32,5 +33,6 @@ function App() {
     </Router>
   );
 }
+
 
 export default App;

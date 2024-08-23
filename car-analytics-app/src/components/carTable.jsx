@@ -81,11 +81,11 @@ const CarTable = ({ cars }) => {
                     <td>{aggregatedData[brand].totalCars}</td>
                   </tr>
                   {Object.keys(aggregatedData[brand].models).map((model, modelIndex) => (
-                    <tr key={model} onClick={() => handleModelClick(brand, model)} className={`clickable-row ${modelIndex === 0 ? 'first-model-row' : ''}`}>
-                      <td></td>
-                      <td>{model}</td>
-                      <td>{aggregatedData[brand].models[model].count}</td>
-                    </tr>
+                   <tr key={model} onClick={() => handleModelClick(brand, model)} className={`clickable-row ${modelIndex === 0 ? 'first-model-row' : ''}`}>
+                   <td></td>
+                   <td className="model-cell">{model}</td>
+                   <td>{aggregatedData[brand].models[model].count}</td>
+                 </tr>
                   ))}
                 </React.Fragment>
               ))}
