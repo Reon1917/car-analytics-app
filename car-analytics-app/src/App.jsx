@@ -22,7 +22,7 @@ function NavigationButtons() {
 
 function App() {
   return (
-    <Router>
+    <Router basename="/car-analytics-app"> {/* Set the basename */}
       <div>
         <NavigationButtons />
         <Routes>
@@ -33,6 +33,5 @@ function App() {
     </Router>
   );
 }
-
 
 export default App;

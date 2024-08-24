@@ -12,13 +12,35 @@ const parseBrandAndModel = (car) => {
   return { brand, model };
 };
 
-// New color scheme
-const colors = ['#6A5ACD', '#FF7F50', '#48D1CC', '#FFD700', '#DA70D6'];
-let colorIndex = 0;
+const colors = [
+  '#1E90FF', // Dodger Blue
+  '#FF6347', // Tomato
+  '#3CB371', // Medium Sea Green
+  '#FFD700', // Gold
+  '#9370DB', // Medium Purple
+  '#FFA500', // Orange
+  '#FF69B4', // Hot Pink
+  '#4682B4', // Steel Blue
+  '#FF4500', // Orange Red
+  '#9ACD32', // Yellow Green
+  '#6B8E23', // Olive Drab
+  '#CD5C5C', // Indian Red
+  '#2E8B57', // Sea Green
+  '#B22222'  // Firebrick
+];
 
-const getColor = () => {
+
+
+// Map to keep track of color index for each brand
+const brandColorIndexMap = new Map();
+
+const getColor = (brand) => {
+  if (!brandColorIndexMap.has(brand)) {
+    brandColorIndexMap.set(brand, 0);
+  }
+  const colorIndex = brandColorIndexMap.get(brand);
   const color = colors[colorIndex];
-  colorIndex = (colorIndex + 1) % colors.length;
+  brandColorIndexMap.set(brand, (colorIndex + 1) % colors.length);
   return color;
 };
 
@@ -47,24 +69,21 @@ const StackedBarChart = ({ cars }) => {
     const brands = [...brandModelMap.keys()];
     const models = [...new Set(cars.map(car => parseBrandAndModel(car).model))];
 
-    const datasets = models.map((model) => {
-      const data = brands.map(brand => {
-        const total = Object.values(brandModelMap.get(brand)).reduce((sum, count) => sum + count, 0);
-        const count = brandModelMap.get(brand)[model] || 0;
-        return (count / total) * 100; // Calculate percentage
+    const datasets = brands.flatMap((brand) => {
+      const brandData = brandModelMap.get(brand);
+      return Object.keys(brandData).map((model) => {
+        const total = Object.values(brandData).reduce((sum, count) => sum + count, 0);
+        const count = brandData[model] || 0;
+        const percentage = (count / total) * 100; // Calculate percentage
+        return {
+          label: model,
+          data: brands.map(b => (b === brand ? percentage : 0)), // Only set data for the current brand
+          backgroundColor: getColor(brand),
+          barPercentage: 1,
+          categoryPercentage: 0.7,
+        };
       });
-      // Filter out zero or undefined values
-      if (data.every(value => value === 0)) {
-        return null;
-      }
-      return {
-        label: model,
-        data: data,
-        backgroundColor: getColor(),
-        barPercentage: 1,
-        categoryPercentage: 0.8,
-      };
-    }).filter(dataset => dataset !== null);
+    });
 
     const data = {
       labels: brands,
@@ -92,6 +111,7 @@ const StackedBarChart = ({ cars }) => {
         y: {
           stacked: true,
           beginAtZero: true,
+          max: 100,
           title: {
             display: true,
             text: 'Percentage',
