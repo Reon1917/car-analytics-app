@@ -6,6 +6,8 @@ Welcome to the Car Analytics App, a comprehensive tool designed to help users an
 Overview
 
 The Car Analytics App is a web-based application that provides users with detailed insights into various car models and brands. It features an intuitive interface that allows you to browse, compare, and analyze car data, making it easier to make informed decisions.
+![image](https://github.com/user-attachments/assets/32b93559-ba67-4202-b73e-341a9210e331)
+
 
 Features
 
@@ -13,9 +15,17 @@ Car Data Visualization: Explore detailed visualizations of car data, including b
 
 Interactive Tables: Easily compare car models and brands side by side with our interactive tables.
 
+![image](https://github.com/user-attachments/assets/bef92fc8-9895-4185-ba80-8934940091b7)
+
+
 Stacked Bar Charts: Visualize car brand data with clear, customizable stacked bar charts.
 
+![image](https://github.com/user-attachments/assets/497a9c88-405d-40cf-adf4-4964db4a5e4a)
+
+
 Favorites Toggle: Mark your favorite car models and revisit them anytime.
+![image](https://github.com/user-attachments/assets/f8958a60-b28e-4121-8a09-ffd8f127ff86)
+
 
 Customizable Views: Adjust the view settings to your preference, ensuring that the data is presented exactly how you need it.
 
