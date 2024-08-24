@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import './stylesheets/barChart.css'; // Import the CSS file
@@ -9,31 +9,17 @@ Chart.register(ChartDataLabels);
 const parseBrandAndModel = (car) => {
   const brand = car.NameMMT.split(' ')[0];
   const model = car.Model;
-
   return { brand, model };
 };
 
-// Predefined 14 colors
-const colors = [
-  '#C11E22', '#14A916', '#274FC1', '#8B4513', '#2E8B57', '#4682B4', '#6A5ACD', 
-  '#708090', '#556B2F', '#8B0000', '#9932CC', '#FF4500', '#DAA520', '#CD5C5C'
-];
+// New color scheme
+const colors = ['#6A5ACD', '#FF7F50', '#48D1CC', '#FFD700', '#DA70D6'];
+let colorIndex = 0;
 
-const assignColors = (models) => {
-  const modelColorMap = new Map();
-  let colorIndex = 0;
-
-  models.forEach(model => {
-    if (!modelColorMap.has(model)) {
-      while (modelColorMap.has(colors[colorIndex])) {
-        colorIndex = (colorIndex + 1) % colors.length;
-      }
-      modelColorMap.set(model, colors[colorIndex]);
-      colorIndex = (colorIndex + 1) % colors.length;
-    }
-  });
-
-  return modelColorMap;
+const getColor = () => {
+  const color = colors[colorIndex];
+  colorIndex = (colorIndex + 1) % colors.length;
+  return color;
 };
 
 const StackedBarChart = ({ cars }) => {
@@ -61,8 +47,6 @@ const StackedBarChart = ({ cars }) => {
     const brands = [...brandModelMap.keys()];
     const models = [...new Set(cars.map(car => parseBrandAndModel(car).model))];
 
-    const modelColorMap = assignColors(models);
-
     const datasets = models.map((model) => {
       const data = brands.map(brand => {
         const total = Object.values(brandModelMap.get(brand)).reduce((sum, count) => sum + count, 0);
@@ -76,11 +60,11 @@ const StackedBarChart = ({ cars }) => {
       return {
         label: model,
         data: data,
-        backgroundColor: modelColorMap.get(model),
-        barPercentage: 1, // Adjust bar width
-        categoryPercentage: 0.8, // Adjust bar width
+        backgroundColor: getColor(),
+        barPercentage: 1,
+        categoryPercentage: 0.8,
       };
-    }).filter(dataset => dataset !== null); // Remove null datasets
+    }).filter(dataset => dataset !== null);
 
     const data = {
       labels: brands,
@@ -88,55 +72,44 @@ const StackedBarChart = ({ cars }) => {
     };
 
     const options = {
-      indexAxis: 'y',
       scales: {
-        y: {
-          stacked: true,
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Brand',
-          },
-          ticks: {
-            autoSkip: false,
-            maxRotation: 0,
-            minRotation: 0,
-            padding: 5,
-          },
-          grace: '5%', // Add some space around the edges
-        },
         x: {
           stacked: true,
           beginAtZero: true,
           title: {
             display: true,
-            text: 'Percentage',
+            text: 'Brand',
+            color: '#FFFFFF',
           },
           ticks: {
+            autoSkip: false,
+            maxRotation: 45,
+            minRotation: 45,
+            padding: 10,
+            color: '#FFFFFF',
+          },
+        },
+        y: {
+          stacked: true,
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Percentage',
+            color: '#FFFFFF',
+          },
+          ticks: {
+            autoSkip: false,
+            maxRotation: 0,
+            minRotation: 0,
+            padding: 10,
+            color: '#FFFFFF',
             stepSize: 10,
           },
-          min: 0,
-          max: 100, // Increase max value to provide more space
         },
       },
       plugins: {
         datalabels: {
-          display: true,
-          color: 'white',
-          anchor: 'center', // Position the labels at the center of the bars
-          align: 'center', // Align the labels at the center of the bars
-          formatter: (value, context) => {
-            const model = context.dataset.label;
-            return value > 0 ? model : '';
-          },
-          font: {
-            weight: 'thin',
-            size: 5, // Adjust font size for better readability
-          },
-          padding: {
-            top: 2,
-            bottom: 2,
-          },
+          display: false,
         },
         tooltip: {
           callbacks: {
