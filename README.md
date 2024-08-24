@@ -16,10 +16,7 @@
   - [Prerequisites](#prerequisites)
   - [Usage](#usage)
 - [Development](#development)
-  - [Installation](#installation)
-  - [Running Locally](#running-locally)
-  - [Building for Production](#building-for-production)
-- [Acknowledgements](#acknowledgements)
+
 
 ## Overview
 
