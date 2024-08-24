@@ -29,23 +29,20 @@ const colors = [
   '#B22222'  // Firebrick
 ];
 
-
-
-// Map to keep track of color index for each brand
-const brandColorIndexMap = new Map();
-
-const getColor = (brand) => {
-  if (!brandColorIndexMap.has(brand)) {
-    brandColorIndexMap.set(brand, 0);
-  }
-  const colorIndex = brandColorIndexMap.get(brand);
-  const color = colors[colorIndex];
-  brandColorIndexMap.set(brand, (colorIndex + 1) % colors.length);
-  return color;
-};
-
 const StackedBarChart = ({ cars }) => {
   const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null);
+  const brandColorIndexMapRef = useRef(new Map());
+
+  const getColor = (brand) => {
+    if (!brandColorIndexMapRef.current.has(brand)) {
+      brandColorIndexMapRef.current.set(brand, 0);
+    }
+    const colorIndex = brandColorIndexMapRef.current.get(brand);
+    const color = colors[colorIndex];
+    brandColorIndexMapRef.current.set(brand, (colorIndex + 1) % colors.length);
+    return color;
+  };
 
   useEffect(() => {
     const ctx = chartRef.current.getContext('2d');
@@ -154,14 +151,18 @@ const StackedBarChart = ({ cars }) => {
       },
     };
 
-    const stackedBarChart = new Chart(ctx, {
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    chartInstanceRef.current = new Chart(ctx, {
       type: 'bar',
       data: data,
       options: options,
     });
 
     return () => {
-      stackedBarChart.destroy();
+      chartInstanceRef.current.destroy();
     };
   }, [cars]);
 

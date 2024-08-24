@@ -114,7 +114,7 @@ const CarTable = ({ cars }) => {
                     return (
                       <tr key={index}>
                         <td>
-                          <img src={car.Img100} alt="Car" className="car-image" onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }} />
+                          <img src={car.Img300} alt="Car" className="car-image" onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }} />
                         </td>
                         <td>{car.Prc}</td>
                         <td>{car.Yr}</td>

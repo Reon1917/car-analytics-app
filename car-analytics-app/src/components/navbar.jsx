@@ -1,18 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import './stylesheets/navbar.css'; // Create and style this CSS file as needed
+import { NavLink } from 'react-router-dom';
+import './stylesheets/navbar.css';
 
 const NavBar = () => {
   return (
     <nav className="navbar">
       <ul>
         <li>
-          <Link to="/">Dashboard</Link>
+          <NavLink to="/" exact activeClassName="active-link">
+            Dashboard
+          </NavLink>
         </li>
         <li>
-          <Link to="/highlight">Highlighted Cars</Link>
+          <NavLink to="/highlighted" activeClassName="active-link">
+            Highlighted Cars
+          </NavLink>
         </li>
       </ul>
+      <div className="animation-bar"></div>
     </nav>
   );
 };

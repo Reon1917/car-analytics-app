@@ -21,14 +21,10 @@ const PieChart = () => {
     return acc;
   }, {});
 
-  // Define a color palette
+  // Define a harmonious color palette
   const colorPalette = [
-    "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
-    "#FF9F40", "#E6194B", "#3CB44B", "#FFE119", "#4363D8",
-    "#F58231", "#911EB4", "#46F0F0", "#F032E6", "#BCF60C",
-    "#FABEBE", "#008080", "#E6BEFF", "#9A6324", "#FFFAC8",
-    "#800000", "#AAFFC3", "#808000", "#FFD8B1", "#000075",
-    "#808080", "#FFFFFF", "#000000"
+    "#4E79A7", "#F28E2B", "#E15759", "#76B7B2", "#59A14F",
+    "#EDC949", "#AF7AA1", "#FF9DA7", "#9C755F", "#BAB0AC"
   ];
 
   // Preparing the data for the Pie Chart
@@ -39,6 +35,8 @@ const PieChart = () => {
         data: Object.values(brandCounts),
         backgroundColor: colorPalette.slice(0, Object.keys(brandCounts).length),
         hoverBackgroundColor: colorPalette.slice(0, Object.keys(brandCounts).length),
+        borderColor: '#1E1E1E', // Border color to match AMOLED black
+        borderWidth: 1, // Border width for better visibility
       },
     ],
   };
@@ -52,13 +50,22 @@ const PieChart = () => {
         position: 'right',
         labels: {
           color: '#ffffff', // White text color for legend
+          font: {
+            size: 14, // Increase font size for better readability
+          },
         },
       },
       tooltip: {
-        backgroundColor: '#000000', // AMOLED black background for tooltips
+        backgroundColor: '#1E1E1E', // AMOLED black background for tooltips
         titleColor: '#ffffff', // White text color for tooltip title
         bodyColor: '#ffffff', // White text color for tooltip body
+        borderColor: '#ffffff', // White border color for tooltip
+        borderWidth: 1, // Border width for tooltip
       },
+    },
+    animation: {
+      animateScale: true, // Animate scaling of the chart
+      animateRotate: true, // Animate rotation of the chart
     },
   };
 

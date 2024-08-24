@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import carData from '../data/taladrod-cars.min.json'; // Adjust the path to your JSON file
 import '/src/App.css';
 
 const HighlightedCars = () => {
@@ -7,8 +6,13 @@ const HighlightedCars = () => {
 
   useEffect(() => {
     const savedFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const filteredCars = carData.Cars.filter(car => savedFavorites.includes(car.Cid));
-    setHighlightedCars(filteredCars);
+    import('../data/taladrod-cars.min.json')
+      .then((module) => {
+        const carData = module.default;
+        const filteredCars = carData.Cars.filter(car => savedFavorites.includes(car.Cid));
+        setHighlightedCars(filteredCars);
+      })
+      .catch((error) => console.error('Error loading JSON:', error));
   }, []);
 
   const removeCarFromHighlight = (car) => {
@@ -28,28 +32,32 @@ const HighlightedCars = () => {
         {/* Implement sorting and filtering options here */}
       </div>
       <div className="car-grid">
-        {highlightedCars.map(car => (
-          <div className="car-card" key={car.Cid}>
-            <div className="car-image-wrapper">
-              <img 
-                src={car.Img300} 
-                alt="Car" 
-                className="car-image" 
-                onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }} 
-              />
-            </div>
-            <div className="car-info">
-              <h3>{car.NameMMT} - {car.Model}</h3>
-              <p className="car-price">฿{car.Prc}</p>
-              <p>Year: {car.Yr}</p>
-              <p>Province: {car.Province}</p>
-              <p>Status: {car.Status}</p>
-              <div className="car-actions">
-                <button className="remove-button" onClick={() => removeCarFromHighlight(car)}>Remove</button>
+        {highlightedCars.length === 0 ? (
+          <p>Add some cars here to display them</p>
+        ) : (
+          highlightedCars.map(car => (
+            <div className="car-card" key={car.Cid}>
+              <div className="car-image-wrapper">
+                <img 
+                  src={car.Img600} 
+                  alt="Car" 
+                  className="car-image" 
+                  onError={(e) => { e.target.onerror = null; e.target.src = 'fallback-image-url.jpg'; }} 
+                />
+              </div>
+              <div className="car-info">
+                <h3>{car.NameMMT} - {car.Model}</h3>
+                <p className="car-price">฿{car.Prc}</p>
+                <p>Year: {car.Yr}</p>
+                <p>Province: {car.Province}</p>
+                <p>Status: {car.Status}</p>
+                <div className="car-actions">
+                  <button className="remove-button" onClick={() => removeCarFromHighlight(car)}>Remove</button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
